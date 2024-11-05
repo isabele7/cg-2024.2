@@ -6,3 +6,14 @@ body {
     align-items: center;
     font-family: Arial, sans-serif;
 }
+
+h3 {
+    color: #333;
+    text-align: center;
+}
+
+canvas {
+    border: 1px solid black;
+    width: 500px;
+    height: 500px;
+}

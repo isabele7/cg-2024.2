@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGL - Controle Rotação</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <h3>Pressione as setas para a direita e para a esquerda para rotacionar o quadrado</h3>
+    <canvas id="canvas" width="500" height="500"></canvas>
+  
+    <script id="vertex-shader-2d" type="notjs">
+      attribute vec2 position;
+      uniform mat4 matrix;
+
+      void main() {
+        gl_Position = matrix * vec4(position, 0, 1);
+        gl_PointSize = 5.0;
+      }
+    </script>
+    <script id="fragment-shader-2d" type="notjs">
+      precision mediump float;
+      uniform vec3 color;
+
+      void main() {
+        gl_FragColor = vec4(color, 1.0);
+      }
+    </script>
+</body>
+</html>
