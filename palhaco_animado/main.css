@@ -1,9 +1,15 @@
 body {
-    margin: 0;
-    background-color: white;
-  }
-  canvas {
-    border: 1px solid black;
-    width: 500px;
-    height: 500px;
-  }
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: white;
+}
+
+canvas {
+  border: 1px solid rgb(0, 0, 0);
+  width: 600px;
+  height: 600px;
+  background-color: white;
+}

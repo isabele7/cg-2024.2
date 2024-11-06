@@ -1,9 +1,12 @@
+//Os efeitos de movimentos adicionados são: a impressão de movimento do cabelo e a mudança de expressão da boca.
+
 function main() {
-    const canvas = document.querySelector("#canvas");
-    const gl = canvas.getContext('webgl', { preserveDrawingBuffer: true });
-  
+    const canvas = document.getElementById("glcanvas");
+    const gl = canvas.getContext("webgl");
+
     if (!gl) {
-        throw new Error('WebGL not supported');
+        console.error("WebGL não suportado.");
+        return;
     }
 
     gl.clearColor(1.0, 1.0, 1.0, 1.0);
@@ -12,29 +15,37 @@ function main() {
     const positionBuffer = gl.createBuffer();
     const colorBuffer = gl.createBuffer();
 
+    // Controle da expressão da boca
     let mouthHappy = true; 
     let lastSwitchTime = 0; 
 
     function animate(currentTime) {
         gl.clear(gl.COLOR_BUFFER_BIT);
 
+        // Desenha o rosto
         drawCircle(gl, positionBuffer, colorBuffer, 0.0, 0.0, 0.5, [1.0, 0.8, 0.6]);
-        drawCircle(gl, positionBuffer, colorBuffer, 0.0, 0.08, 0.09, [1.0, 0.0, 0.0]); 
 
+        //Desenha o nariz
+        drawCircle(gl, positionBuffer, colorBuffer, 0.0, 0.001, 0.09, [1.0, 0.0, 0.0]); 
+
+        // Desenha os olhos
         drawCircle(gl, positionBuffer, colorBuffer, -0.2, 0.2, 0.1, [1.0, 1.0, 1.0]); 
         drawCircle(gl, positionBuffer, colorBuffer, 0.2, 0.2, 0.1, [1.0, 1.0, 1.0]);  
         drawCircle(gl, positionBuffer, colorBuffer, -0.2, 0.2, 0.05, [0.0, 0.0, 0.0]); 
         drawCircle(gl, positionBuffer, colorBuffer, 0.2, 0.2, 0.05, [0.0, 0.0, 0.0]); 
 
+        // Desenha a boca
         drawMouth(gl, positionBuffer, colorBuffer, mouthHappy);
 
+        // Desenha o cabelo
         drawHair(gl, positionBuffer, colorBuffer, 0.0, 0.0, 0.5, [1.0, 0.1, 0.1]);
 
+        // Alterna a expressão da boca a cada 2 segundos
         if (currentTime - lastSwitchTime >= 2000) {
             mouthHappy = !mouthHappy;
             lastSwitchTime = currentTime;
         }
-
+        
         requestAnimationFrame(animate);
     }
 
@@ -100,6 +111,7 @@ function drawCircle(gl, positionBuffer, colorBuffer, centerX, centerY, radius, c
     gl.drawArrays(gl.TRIANGLES, 0, segments * 3);
 }
 
+//As funções math.random() foram utilizadas para dar impressão de movimento ao cabelo do palhaço
 function drawHair(gl, positionBuffer, colorBuffer, centerX, centerY, headRadius, color) {
     const hairRadius = 0.15;
     const upperLayerHairRadius = 0.18; 
@@ -110,6 +122,7 @@ function drawHair(gl, positionBuffer, colorBuffer, centerX, centerY, headRadius,
 
     for (let i = 0; i < numberOfCurls; i++) {
         const angle = (i * Math.PI) / (numberOfCurls - 1);
+        // As posições de x e y são alteradas para movimentar os cachos
         const x = centerX + (headRadius + hairRadius / 2) * Math.cos(angle) + (Math.random() - 0.5) * 0.08;
         const y = centerY + (headRadius + hairRadius / 2) * Math.sin(angle) + (Math.random() - 0.5) * 0.08 - yOffset;
         const curlRadius = hairRadius + (Math.random() - 0.5) * radiusVariance;
@@ -118,6 +131,7 @@ function drawHair(gl, positionBuffer, colorBuffer, centerX, centerY, headRadius,
 
     for (let i = 0; i < upperLayerCurls; i++) {
         const angle = (i * Math.PI) / (upperLayerCurls - 1);
+        // As posições de x e y são alteradas para movimentar os cachos
         const x = centerX + (headRadius + upperLayerHairRadius / 2) * Math.cos(angle) + (Math.random() - 0.5) * 0.08;
         const y = centerY + (headRadius + upperLayerHairRadius / 2) * Math.sin(angle) + (Math.random() - 0.5) * 0.08;
         const curlRadius = upperLayerHairRadius + (Math.random() - 0.5) * radiusVariance;
@@ -128,9 +142,11 @@ function drawHair(gl, positionBuffer, colorBuffer, centerX, centerY, headRadius,
 function drawMouth(gl, positionBuffer, colorBuffer, mouthHappy) {
     const vertices = [];
     const segments = 40;
-    const radius = 0.25;
+    const radius = 0.20;
     const centerX = 0.0;
-    const centerY = -0.25;
+    const centerY = -0.28;
+
+    // Altera a expressão da boca
     const offset = mouthHappy ? 1 : -1; 
 
     for (let i = 0; i <= segments; i++) {
@@ -143,7 +159,7 @@ function drawMouth(gl, positionBuffer, colorBuffer, mouthHappy) {
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
-    const color = [0.0, 0.0, 0.0, 1.0]; // Cor preta para a boca
+    const color = [0.0, 0.0, 0.0, 1.0]; 
     const colors = [];
     for (let i = 0; i <= segments; i++) {
         colors.push(...color);
@@ -151,7 +167,7 @@ function drawMouth(gl, positionBuffer, colorBuffer, mouthHappy) {
 
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
-
+    
     const vertexShaderSource = `
         attribute vec2 a_position;
         void main() {
