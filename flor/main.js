@@ -1,12 +1,9 @@
-// O efeito de movimento adicionado é: a flor se movimenta para frente e para trás da tela
-
 function main() {
     const canvas = document.querySelector("#c");
     const gl = canvas.getContext('webgl');
 
     if (!gl) {
-        alert("WebGL não é suportado neste navegador");
-        return;
+        throw new Error('WebGL not supported');
     }
 
     var vertexShaderSource = document.querySelector("#vertex-shader-2d").text;
@@ -32,16 +29,11 @@ function main() {
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     gl.vertexAttribPointer(colorLocation, 3, gl.FLOAT, false, 0, 0);
 
-    const scaleLocation = gl.getUniformLocation(program, "scale");
-    gl.uniform1f(scaleLocation, 1.0); 
-
     gl.clearColor(1.0, 1.0, 1.0 , 1.0); 
     gl.clear(gl.COLOR_BUFFER_BIT);
     drawStem(gl, positionBuffer, colorBuffer);
     drawLeaves(gl, positionBuffer, colorBuffer);
     drawFlowerHead(gl, positionBuffer, colorBuffer);
-
-    animate(gl, program, scaleLocation, positionBuffer, colorBuffer);
 }
 
 function drawStem(gl, positionBuffer, colorBuffer) {
@@ -53,7 +45,7 @@ function drawStem(gl, positionBuffer, colorBuffer) {
 }
 
 function drawLeaves(gl, positionBuffer, colorBuffer) {
-    drawLeaf(gl, positionBuffer, colorBuffer, -0.15, -0.4, Math.PI / 6);
+    drawLeaf(gl, positionBuffer, colorBuffer, -0.2, -0.4, Math.PI / 6);
     drawLeaf(gl, positionBuffer, colorBuffer, 0.2, -0.2, -Math.PI / 6);
 }
 
@@ -222,30 +214,6 @@ function setRectangleColor(gl, color) {
         ...color, ...color, ...color,
         ...color, ...color, ...color
     ]), gl.STATIC_DRAW);
-}
-
-function animate(gl, program, scaleLocation, positionBuffer, colorBuffer) {
-    let scale = 1.0;
-    let scaleDirection = 0.03; // controla a velocidade de crescimento e encolhimento
-
-    function render() {
-        scale += scaleDirection;
-        
-        if (scale > 2.2 || scale < 1.0) {
-            scaleDirection = -scaleDirection; // inverte a direção quando atinge o limite
-        }
-        
-        gl.uniform1f(scaleLocation, scale); // aplica o valor de escala
-
-        gl.clear(gl.COLOR_BUFFER_BIT); // limpa a tela
-        drawStem(gl, positionBuffer, colorBuffer); // redesenha os componentes da flor
-        drawLeaves(gl, positionBuffer, colorBuffer);
-        drawFlowerHead(gl, positionBuffer, colorBuffer);
-
-        requestAnimationFrame(render); // continua a animação
-    }
-
-    requestAnimationFrame(render); // inicia o loop
 }
 
 main();

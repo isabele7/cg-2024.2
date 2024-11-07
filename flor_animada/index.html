@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Flor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="main.css" />
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <canvas id="c"></canvas>
+
+    <script id="vertex-shader-2d" type="x-shader/x-vertex">
+        attribute vec2 position;
+        attribute vec3 color;
+        varying vec3 vColor;
+        uniform float scale;
+        void main() {
+            gl_Position = vec4(position * scale, 0, 1);
+            vColor = color;
+        }
+    </script>
+    
+    <script id="fragment-shader-2d" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec3 vColor;
+        void main() {
+            gl_FragColor = vec4(vColor, 1);
+        }
+    </script>
+</body>
+</html>

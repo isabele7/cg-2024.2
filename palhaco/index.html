@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Carro animado</title>
+    <title>Palhaço</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js" defer></script>
@@ -15,7 +15,7 @@
         attribute vec2 position;
         attribute vec3 color;
         varying vec3 vColor;
-        
+
         void main() {
             gl_Position = vec4(position, 0.0, 1.0);
             vColor = color;
@@ -24,14 +24,12 @@
 
     <script id="fragment-shader-2d" type="notjs">
         precision mediump float;
-        
+
         varying vec3 vColor;
-        
+
         void main() {
             gl_FragColor = vec4(vColor, 1.0);
         }
     </script>
-
-    <script src="main.js"></script>
 </body>
 </html>

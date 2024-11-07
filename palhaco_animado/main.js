@@ -1,4 +1,5 @@
-//Os efeitos de movimentos adicionados são: a impressão de movimento do cabelo e a mudança de expressão da boca.
+// Os efeitos de movimentos adicionados são: a impressão de movimento 
+// do cabelo e a mudança de expressão da boca do palhaço
 
 function main() {
     const canvas = document.getElementById("glcanvas");
