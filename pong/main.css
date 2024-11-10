@@ -1,0 +1,113 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #282c34;
+    font-family: 'Press Start 2P', Arial, sans-serif;
+}
+
+canvas {
+    border: 2px solid white;
+    background-color: black;
+}
+
+.menu {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    min-width: 300px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Estilo base para todos os botões */
+button {
+    border: 2px solid white;
+    color: white;
+    padding: 15px 32px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 10px 0;
+    width: 100%;
+    font-family: 'Press Start 2P', Arial, sans-serif;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    background-color: transparent;
+}
+
+/* Botão Start - Verde Neon */
+#startButton {
+    background-color: transparent;
+    border-color: #39FF14;
+    color: #39FF14;
+}
+#startButton:hover {
+    background-color: #39FF14;
+    color: black;
+    box-shadow: 0 0 15px #39FF14;
+}
+
+/* Botão Resume - Azul Neon */
+#resumeButton {
+    background-color: transparent;
+    border-color: #00FFFF;
+    color: #00FFFF;
+}
+#resumeButton:hover {
+    background-color: #00FFFF;
+    color: black;
+    box-shadow: 0 0 15px #00FFFF;
+}
+
+/* Botão Quit - Vermelho Neon */
+#quitButton {
+    background-color: transparent;
+    border-color: #FF3131;
+    color: #FF3131;
+}
+#quitButton:hover {
+    background-color: #FF3131;
+    color: black;
+    box-shadow: 0 0 15px #FF3131;
+}
+
+/* Botão Restart - Amarelo Neon */
+#restartButton {
+    background-color: transparent;
+    border-color: #FFFF00;
+    color: #FFFF00;
+}
+#restartButton:hover {
+    background-color: #FFFF00;
+    color: black;
+    box-shadow: 0 0 15px #FFFF00;
+}
+
+/* Estilo para os títulos dos menus */
+.menu h2 {
+    color: white;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px white;
+}
+
+#winner {
+    color: #39FF14;
+    margin: 20px 0;
+    font-size: 14px;
+}
+
+#score1, #score2 {
+    color: white;
+    font-size: 24px;
+    font-family: 'Press Start 2P', cursive;
+}
