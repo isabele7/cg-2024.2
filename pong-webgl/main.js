@@ -5,26 +5,23 @@ if (!gl) {
     alert('WebGL não é suportado pelo seu navegador.');
 }
 
-// Configurações do campo
 const fieldWidth = canvas.width - 40;
 const fieldHeight = canvas.height - 90;
 const fieldX = 20;
 const fieldY = 70;
 
-// Estado do jogo
 let player1Score = 0;
 let player2Score = 0;
 let isPaused = false;
 let gameActive = false;
 
-// Configuração dos objetos do jogo
 const player1 = {
     x: fieldX + 10,
     y: fieldY + (fieldHeight / 2) - 50,
     width: 10,
     height: 100,
     score: 0,
-    color: [1, 1, 1, 1]  // Branco
+    color: [1, 1, 1, 1]  
 };
 
 const player2 = {
@@ -33,7 +30,7 @@ const player2 = {
     width: 10,
     height: 100,
     score: 0,
-    color: [1, 1, 1, 1]  // Branco
+    color: [1, 1, 1, 1]  
 };
 
 const ball = {
@@ -42,10 +39,9 @@ const ball = {
     radius: 5,
     velocityX: 5,
     velocityY: 5,
-    color: [1, 1, 1, 1]  // Branco
+    color: [1, 1, 1, 1]  
 };
 
-// Funções de shader e inicialização WebGL
 function createShader(gl, type, source) {
     const shader = gl.createShader(type);
     gl.shaderSource(shader, source);
@@ -77,7 +73,6 @@ const fragmentShaderSource = `
     }
 `;
 
-// Inicialização do programa WebGL
 const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
 const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
 
@@ -92,19 +87,15 @@ if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
 
 gl.useProgram(program);
 
-// Obtém localização dos atributos e uniformes
 const positionLocation = gl.getAttribLocation(program, 'a_position');
 const resolutionLocation = gl.getUniformLocation(program, 'u_resolution');
 const colorLocation = gl.getUniformLocation(program, 'u_color');
 
-// Buffer para posições
 const positionBuffer = gl.createBuffer();
 
-// Configura viewport e resolução
 gl.viewport(0, 0, canvas.width, canvas.height);
 gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
 
-// Função para desenhar retângulos
 function drawRectangle(x, y, width, height, color) {
     const x1 = x;
     const x2 = x + width;
@@ -137,15 +128,12 @@ function drawDottedLine(x, yStart, yEnd, segmentHeight, gap, color) {
     }
 }
 
-// Função para desenhar círculo (bola)
 function drawCircle(cx, cy, radius, color) {
     const segments = 30;
     const positions = [];
-    
-    // Centro do círculo
+
     positions.push(cx, cy);
-    
-    // Gera pontos ao redor do círculo
+
     for (let i = 0; i <= segments; i++) {
         const angle = i * Math.PI * 2 / segments;
         positions.push(
@@ -171,16 +159,13 @@ function updateScore() {
 function update() {
     if (isPaused || !gameActive) return;
 
-    // Atualiza a posição da bola
     ball.x += ball.velocityX;
     ball.y += ball.velocityY;
 
-    // Colisão com as paredes superior e inferior
     if (ball.y - ball.radius < fieldY || ball.y + ball.radius > fieldY + fieldHeight) {
         ball.velocityY *= -1;
     }
 
-    // Colisão com as raquetes dos jogadores
     if (ball.x - ball.radius < player1.x + player1.width &&
         ball.y > player1.y && 
         ball.y < player1.y + player1.height) {
@@ -195,7 +180,6 @@ function update() {
         ball.x = player2.x - ball.radius; 
     }
 
-    // Incrementar a pontuação do jogador se a bola sair do campo
     if (ball.x < fieldX) {
         player2.score++;
         updateScore();
@@ -206,7 +190,6 @@ function update() {
         resetBall();
     }
 
-    // Verificar se algum jogador venceu
     if (player1.score >= 5) {
         endGame('Jogador 1 venceu!');
     } else if (player2.score >= 5) {
@@ -214,26 +197,21 @@ function update() {
     }
 }
 
-// Função de renderização
 function render() {
     gl.clearColor(0, 0, 0, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    // Desenha o campo
     drawRectangle(fieldX, fieldY, fieldWidth, fieldHeight, [0.1, 0.1, 0.1, 1]);
 
-    const lineX = fieldX + fieldWidth / 2 - 1; // Posição x centralizada
-    drawDottedLine(lineX, fieldY, fieldY + fieldHeight, 10, 5, [1, 1, 1, 1]); // Altura de 10px com espaçamento de 5px
+    const lineX = fieldX + fieldWidth / 2 - 1; 
+    drawDottedLine(lineX, fieldY, fieldY + fieldHeight, 10, 5, [1, 1, 1, 1]); 
     
-    // Desenha as raquetes
     drawRectangle(player1.x, player1.y, player1.width, player1.height, player1.color);
     drawRectangle(player2.x, player2.y, player2.width, player2.height, player2.color);
-    
-    // Desenha a bola
+
     drawCircle(ball.x, ball.y, ball.radius, ball.color);
 }
 
-// Funções de controle do jogo
 function resetBall() {
     ball.x = fieldX + fieldWidth / 2;
     ball.y = fieldY + fieldHeight / 2;
@@ -243,7 +221,6 @@ function resetBall() {
 function movePaddle(event) {
     const paddleSpeed = 30;
 
-    // Movimentos para a raquete do Jogador 1
     if (event.key === 'w' && player1.y > fieldY) {
         player1.y = Math.max(player1.y - paddleSpeed, fieldY);
     }
@@ -251,7 +228,6 @@ function movePaddle(event) {
         player1.y = Math.min(player1.y + paddleSpeed, fieldY + fieldHeight - player1.height);
     }
 
-    // Movimentos para a raquete do Jogador 2
     if (event.key === 'ArrowUp' && player2.y > fieldY) {
         player2.y = Math.max(player2.y - paddleSpeed, fieldY);
     }
@@ -275,7 +251,7 @@ function endGame(message) {
 function resetGame() {
     player1.score = 0;
     player2.score = 0;
-    updateScore(); // Atualiza a tabela de score na interface
+    updateScore(); 
     resetBall();
     player1.y = fieldY + (fieldHeight / 2) - 50;
     player2.y = fieldY + (fieldHeight / 2) - 50;
@@ -287,7 +263,6 @@ function resetGame() {
     requestAnimationFrame(gameLoop);
 }
 
-// Loop principal do jogo
 function gameLoop() {
     update();
     render();
@@ -296,7 +271,6 @@ function gameLoop() {
     }
 }
 
-// Event Listeners
 document.getElementById('startButton').addEventListener('click', () => {
     document.getElementById('mainMenu').classList.add('hidden');
     gameActive = true;
