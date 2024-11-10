@@ -2,7 +2,7 @@ const canvas = document.getElementById('canvas');
 const gl = canvas.getContext('webgl');
 
 if (!gl) {
-    alert('WebGL não é suportado pelo seu navegador.');
+    throw new Error('WebGL not supported');
 }
 
 const fieldWidth = canvas.width - 40;
