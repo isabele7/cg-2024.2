@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiro ao alvo</title>
+    <link href="https://fonts.cdnfonts.com/css/press-start-2p" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/vcr-osd-mono" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'VCR OSD Mono';
+            src: url('https://fonts.cdnfonts.com/css/vcr-osd-mono') format('woff2');
+        }
+        
+        @font-face {
+            font-family: 'Press Start 2P';
+            src: url('https://fonts.cdnfonts.com/css/press-start-2p') format('woff2');
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            font-family: 'VCR OSD Mono', monospace;
+            background-color: #000;
+        }
+
+        #start-screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            z-index: 100;
+        }
+
+        #start-screen h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            text-align: center;
+            text-shadow: 3px 3px #000;
+            letter-spacing: 2px;
+            color: #00ff00;
+        }
+
+        #start-button {
+            font-family: 'Press Start 2P', cursive;
+            padding: 20px 40px;
+            font-size: 1em;
+            background: #28a745;
+            color: white;
+            border: 4px solid #1a6b2c;
+            cursor: pointer;
+            border-radius: 0;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 4px 4px #000;
+        }
+
+        #start-button:hover {
+            background: #218838;
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px #000;
+        }
+
+        #game-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: none;
+        }
+
+        #game-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 10px; /* Reduced padding */
+            padding: 8px;
+            color: #00ff00;
+            font-size: 0.9em; /* Reduced font size */
+            border-radius: 0;
+            z-index: 10;
+            min-width: 180px; /* Reduced min-width */
+            border: 2px solid #00ff00;
+            font-family: 'VCR OSD Mono', monospace;
+            letter-spacing: 1px;
+        }        
+
+        #hud p {
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #hud span {
+            font-weight: normal;
+            color: #fff;
+        }
+
+        #instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            padding: 10px 20px; /* Reduced padding */
+            color: #fff;
+            border-radius: 0;
+            text-align: center;
+            z-index: 10;
+            border: 2px solid #00ff00;
+            font-family: 'VCR OSD Mono', monospace;
+            letter-spacing: 1px;
+            font-size: 0.9em; /* Reduced font size */
+        }
+        .key {
+            background: #00ff00;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 0;
+            margin: 0 3px;
+            font-family: 'VCR OSD Mono', monospace;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="start-screen">
+        <h1>TIRO AO ALVO</h1>
+        <button id="start-button">Iniciar Jogo</button>
+    </div>
+    
+    <div id="game-container">
+        <div id="hud">
+            <p>PONTUAÇÃO: <span id="score">0</span></p>
+            <p>TEMPO: <span id="time">30</span>s</p>
+            <p>PRECISÃO: <span id="accuracy">100%</span></p>
+        </div>
+        
+        <div id="instructions">
+            Use as setas para mirar o canhão e o espaco para atirar
+        </div>
+        
+        <canvas id="game-canvas"></canvas>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
