@@ -310,10 +310,7 @@ function initCannon() {
     gl.bufferData(gl.ARRAY_BUFFER, cannon.colors, gl.STATIC_DRAW);
 }
 
-/**
- * Inicializa os alvos com geometria de cilindro e poste.
- * Define a posição, rotação, buffers e velocidade dos alvos.
- */
+// Inicializa os alvos, definindo a posição, rotação, buffers e velocidade dos alvos.
 function initTargets() {
     const targetGeometry = createTargetGeometry(0.8, 0.2);
     const postGeometry = createPostGeometry(3.0, 0.1);
