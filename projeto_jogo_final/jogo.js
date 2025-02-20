@@ -459,7 +459,6 @@ function drawBullets(projectionMatrix) {
 }
 
 // Inicializa as balas com a geometria de uma esfera, definindo posição, rotação, buffers e velocidade dos alvos.
- * Define os buffers de vértices, índices e cores
 function initBullets() {
     const bulletGeometry = createSphere(0.1, 32);
     const latestBullet = bullets[bullets.length - 1];
