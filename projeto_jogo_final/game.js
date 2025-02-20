@@ -277,7 +277,7 @@ function createCylinderVertices(radius, height, segments) {
     const colors = [];
     const indices = [];
 
-    // Create cylinder body
+    // Criar cilindro (base do canhão)
     for (let i = 0; i <= segments; i++) {
         const theta = (i * 2 * Math.PI) / segments;
         const x = radius * Math.cos(theta);
@@ -292,7 +292,6 @@ function createCylinderVertices(radius, height, segments) {
         colors.push(0.2, 0.2, 0.8, 1.0);
     }
 
-    // Create indices for cylinder body
     for (let i = 0; i < segments; i++) {
         const i2 = i * 2;
         indices.push(
@@ -301,25 +300,21 @@ function createCylinderVertices(radius, height, segments) {
         );
     }
 
-    // Add top and bottom faces
     const centerTopIndex = vertices.length / 3;
-    vertices.push(0, height/2, 0);  // Top center
+    vertices.push(0, height/2, 0); 
     colors.push(0.2, 0.2, 0.8, 1.0);
 
     const centerBottomIndex = centerTopIndex + 1;
     vertices.push(0, -height/2, 0);  // Bottom center
     colors.push(0.2, 0.2, 0.8, 1.0);
 
-    // Add indices for top and bottom faces
     for (let i = 0; i < segments; i++) {
-        // Top face
         indices.push(
             centerTopIndex,
             i * 2,
             ((i + 1) % segments) * 2
         );
         
-        // Bottom face
         indices.push(
             centerBottomIndex,
             i * 2 + 1,
@@ -327,17 +322,14 @@ function createCylinderVertices(radius, height, segments) {
         );
     }
 
-    // Create cone for the top (red tip)
+    // Criar o cone (topo do canhão)
     const coneHeight = height/1.2;
     const coneBase = height/2;
     const coneRadius = radius;
 
     const coneBaseIndex = vertices.length / 3;
-    // Cone tip
     vertices.push(0, coneBase + coneHeight, 0);
-    colors.push(0.8, 0.2, 0.2, 1.0); // Red color for cone
-
-    // Cone base vertices
+    colors.push(0.8, 0.2, 0.2, 1.0); 
     for (let i = 0; i <= segments; i++) {
         const theta = (i * 2 * Math.PI) / segments;
         const x = coneRadius * Math.cos(theta);
@@ -347,7 +339,6 @@ function createCylinderVertices(radius, height, segments) {
         colors.push(0.8, 0.2, 0.2, 1.0);
     }
 
-    // Cone indices
     for (let i = 0; i < segments; i++) {
         indices.push(
             coneBaseIndex,
@@ -363,12 +354,8 @@ function createCylinderVertices(radius, height, segments) {
     };
 }
 
-/**
- * Cria a geometria de um alvo com anéis concêntricos.
- * @param {number} radius - O raio do alvo.
- * @param {number} depth - A profundidade do alvo.
- * @returns {Object} - Um objeto contendo os vértices, cores e índices do alvo.
- */
+
+// Criar filas de alvos alternando anéis brancos e vermelhos
 function createTargetGeometry(radius, depth) {
 const segments = 32;
 const vertices = [];
@@ -376,7 +363,6 @@ const colors = [];
 const indices = [];
 const rings = 5;
 
-// Create front and back faces with more depth
 const faces = [-depth/2, depth/2];
 faces.forEach((z) => {
     for (let ring = 0; ring < rings; ring++) {
@@ -407,8 +393,7 @@ faces.forEach((z) => {
     }
 });
 
-// Add side walls for more visible depth
-// const outerVertices = segments + 1; // Unused variable
+// Adiciona paredes para dar profundidade aos alvos
 for (let i = 0; i < segments; i++) {
     const theta = (i * 2 * Math.PI) / segments;
     const nextTheta = ((i + 1) * 2 * Math.PI) / segments;
@@ -441,18 +426,15 @@ return {
 };
 }
 
-/**
- * Inicializa o canhão com a geometria de um cilindro.
- * Define a posição, rotação e buffers do canhão.
- */
+// Inicializa o canhão, com formato cilíndrico na base e cônico no topo
 function initCannon() {
     const geometry = createCylinderVertices(0.3, 1.0, 20);
     
     cannon = {
         position: {
             x: 0.0,
-            y: 0.0,  // Changed from -2.0 to 0.0 to raise the cannon
-            z: -3.0   // Changed from -6.0 to -3.0 to bring it closer to camera
+            y: 0.0,  
+            z: -3.0   
         },
         rotation: {
             x: -Math.PI / 4,
@@ -467,7 +449,6 @@ function initCannon() {
         colorBuffer: gl.createBuffer()
     };
     
-    // Initialize buffers
     gl.bindBuffer(gl.ARRAY_BUFFER, cannon.vertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, cannon.vertices, gl.STATIC_DRAW);
     
