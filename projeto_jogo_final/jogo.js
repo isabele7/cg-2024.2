@@ -122,13 +122,7 @@ lightSources = [
 ];
 }
 
-/**
- * Cria os vértices, cores e índices para um cilindro.
- * @param {number} radius - O raio do cilindro.
- * @param {number} height - A altura do cilindro.
- * @param {number} segments - O número de segmentos ao redor do cilindro.
- * @returns {Object} - Um objeto contendo os vértices, cores e índices do cilindro.
- */
+// Cria os vértices, cores e índices para um cilindro.
 function createCylinderVertices(radius, height, segments) {
     const vertices = [];
     const colors = [];
