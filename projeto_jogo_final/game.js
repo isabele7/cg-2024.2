@@ -979,8 +979,7 @@ function startGame() {
     shots = 0;
     hits = 0;
 
-    // Atualiza a UI
-    document.getElementById('score').textContent = '0';
+document.getElementById('score').textContent = '0';
     document.getElementById('time').textContent = '30';
     document.getElementById('accuracy').textContent = '0%';
 
@@ -1018,6 +1017,8 @@ function startGame() {
     }, 1000);
 }
 
+// Inicializa o contexto WebGL e configura o canvas.
+// Inicializa shaders, luzes, canhão, alvos e geometria da esfera
 function initGL() {
     const canvas = document.getElementById('game-canvas');
     if (!canvas) {
