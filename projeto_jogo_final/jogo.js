@@ -431,10 +431,8 @@ function drawObject(object, projectionMatrix) {
     gl.drawElements(gl.TRIANGLES, object.indices.length, gl.UNSIGNED_SHORT, 0);
 }
 
-/**
- * Desenha as balas na cena.
- * @param {mat4} projectionMatrix - A matriz de projeção.
- */
+// Desenha as balas na cena.
+
 function drawBullets(projectionMatrix) {
     bullets.forEach(bullet => {
         const modelViewMatrix = mat4.create();
@@ -460,26 +458,20 @@ function drawBullets(projectionMatrix) {
     });
 }
 
-/**
- * Inicializa as balas com a geometria de uma esfera.
- * Define os buffers de vértices, índices e cores para a última bala.
- */
+// Inicializa as balas com a geometria de uma esfera, definindo posição, rotação, buffers e velocidade dos alvos.
+ * Define os buffers de vértices, índices e cores
 function initBullets() {
-    // Create a sphere for the latest bullet
-    const bulletGeometry = createSphere(0.1, 32); // Smaller radius and fewer segments for better performance
+    const bulletGeometry = createSphere(0.1, 32);
     const latestBullet = bullets[bullets.length - 1];
-    
-    // Add rendering properties to the bullet
+
     latestBullet.vertices = bulletGeometry.vertices;
     latestBullet.indices = bulletGeometry.indices;
     latestBullet.colors = bulletGeometry.colors;
-    
-    // Create WebGL buffers for the bullet
+
     latestBullet.vertexBuffer = gl.createBuffer();
     latestBullet.indexBuffer = gl.createBuffer();
     latestBullet.colorBuffer = gl.createBuffer();
-    
-    // Fill the buffers with data
+
     gl.bindBuffer(gl.ARRAY_BUFFER, latestBullet.vertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, latestBullet.vertices, gl.STATIC_DRAW);
     
@@ -492,12 +484,6 @@ function initBullets() {
 // Adicione uma variável para contar acertos
 let hits = 0;
 
-
-/**
- * Manipula o evento de pressionar uma tecla.
- * @param {KeyboardEvent} event - O evento de teclado.
- */
-// Garantir que o espaço seja detectado corretamente
 function handleKeyDown(event) {
     pressedKeys[event.key] = true;
     if (event.code === 'Space' || event.key === ' ') {
@@ -506,11 +492,6 @@ function handleKeyDown(event) {
     }
 }
 
-
-/**
- * Manipula o evento de soltar uma tecla.
- * @param {KeyboardEvent} event - O evento de teclado.
- */
 function handleKeyUp(event) {
 pressedKeys[event.key] = false;
 event.preventDefault();
@@ -685,10 +666,10 @@ function initBackground() {
 
     // Gradiente de cor para o céu
     const skyColors = new Float32Array([
-        0.68, 0.85, 0.9, 1.0,  // Azul claro no topo
-        0.68, 0.85, 0.9, 1.0,  // Azul claro no topo
-        1.0,  1.0,  1.0,  1.0,  // Branco no meio
-        1.0,  1.0,  0.8,  1.0   // Amarelado no final
+        0.68, 0.85, 0.9, 1.0, 
+        0.68, 0.85, 0.9, 1.0, 
+        1.0,  1.0,  1.0,  1.0,  
+        1.0,  1.0,  0.8,  1.0 
     ]);
 
     const skyIndices = new Uint16Array([
@@ -709,21 +690,17 @@ function initBackground() {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, skyIndicesBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, skyIndices, gl.STATIC_DRAW);
 
-    // Novo código para o chão inclinado
     const groundVertices = new Float32Array([
-        // Frente (mais próximo ao jogador)
-        -100.0, -2.0,   20.0,  // Esquerda baixo
-         100.0, -2.0,   20.0,  // Direita baixo
-        // Fundo (mais longe do jogador)
-        -100.0,  5.0, -100.0,  // Esquerda cima
-         100.0,  5.0, -100.0   // Direita cima
+        -100.0, -2.0,   20.0, 
+         100.0, -2.0,   20.0, 
+        -100.0,  5.0, -100.0,  
+         100.0,  5.0, -100.0   
     ]);
     
-    // Cor do gramado mais realista
     const groundColors = new Float32Array([
-        0.35, 0.75, 0.20, 1.0,  // Verde mais escuro na frente
+        0.35, 0.75, 0.20, 1.0,  
         0.35, 0.75, 0.20, 1.0,
-        0.45, 0.85, 0.25, 1.0,  // Verde mais claro no fundo
+        0.45, 0.85, 0.25, 1.0,  
         0.45, 0.85, 0.25, 1.0
     ]);
     
@@ -732,7 +709,6 @@ function initBackground() {
         1, 2, 3
     ]);
     
-    // Criar e preencher buffers do chão
     grassBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, grassBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, groundVertices, gl.STATIC_DRAW);
@@ -797,7 +773,7 @@ function startGame() {
     shots = 0;
     hits = 0;
 
-document.getElementById('score').textContent = '0';
+    document.getElementById('score').textContent = '0';
     document.getElementById('time').textContent = '30';
     document.getElementById('accuracy').textContent = '0%';
 
@@ -930,7 +906,6 @@ function createPostGeometry(height, radius) {
         );
     }
 
-    // Adiciona tampas superior e inferior
     const centerTopIndex = vertices.length / 3;
     vertices.push(0, height, 0);
     colors.push(0.4, 0.4, 0.4, 1.0);
@@ -941,16 +916,13 @@ function createPostGeometry(height, radius) {
     colors.push(0.3, 0.3, 0.3, 1.0);
     normals.push(0, -1, 0);
 
-    // Adiciona índices para as tampas
     for (let i = 0; i < segments; i++) {
-        // Tampa superior
         indices.push(
             centerTopIndex,
             i * 2,
             ((i + 1) % segments) * 2
         );
-        
-        // Tampa inferior
+
         indices.push(
             centerBottomIndex,
             i * 2 + 1,
