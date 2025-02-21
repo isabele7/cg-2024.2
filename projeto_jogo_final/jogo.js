@@ -33,19 +33,15 @@ const fsSource = `
     uniform vec3 uLightDirection;
     
     void main() {
-        // Normalize vectors for lighting
         vec3 normal = normalize(vNormal);
         vec3 lightDir = normalize(uLightDirection);
-        
-        // Ambient light
+
         float ambientStrength = 0.7;
         vec3 ambient = ambientStrength * vec3(1.0, 1.0, 1.0);
-        
-        // Diffuse light
+
         float diff = max(dot(normal, lightDir), 0.0);
         vec3 diffuse = diff * vec3(1.0, 1.0, 1.0);
-        
-        // Combine lighting
+
         vec3 result = (ambient + diffuse) * vColor.rgb;
         gl_FragColor = vec4(result, vColor.a);
     }
@@ -402,12 +398,6 @@ function initTargets() {
     }
 }
 
-
-/**
- * Desenha um objeto na cena.
- * @param {Object} object - O objeto a ser desenhado.
- * @param {mat4} projectionMatrix - A matriz de projeção.
- */
 function drawObject(object, projectionMatrix) {
     const modelViewMatrix = mat4.create();
     mat4.translate(modelViewMatrix, modelViewMatrix, [object.position.x, object.position.y, object.position.z]);
@@ -655,7 +645,8 @@ return {
 };
 }
 function initBackground() {
-    // Sky vertices (mantido como está)
+
+    // Definir vértices, cores e índices para o céu
     const skyVertices = new Float32Array([
         -100.0,  100.0, -100.0,
          100.0,  100.0, -100.0,
@@ -663,7 +654,6 @@ function initBackground() {
          100.0, -100.0, -100.0
     ]);
 
-    // Gradiente de cor para o céu
     const skyColors = new Float32Array([
         0.68, 0.85, 0.9, 1.0, 
         0.68, 0.85, 0.9, 1.0, 
@@ -679,7 +669,7 @@ function initBackground() {
     // Criar e preencher buffers do céu
     skyBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, skyBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, skyVertices, gl.STATIC_DRAW);
+    gl.buffrData(gl.ARRAY_BUFFER, skyVertices, gl.STATIC_DRAW);
 
     skyColorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, skyColorBuffer);
